@@ -6,7 +6,7 @@
 
 ## 中文
 
-将 Markdown 文件转换为单张原生长图，方便分享到微信、Discord 等平台。
+将 Markdown 文件转换为原生长图的 skill，可使用 OpenClaw、Claude Code 等 AI Agent 直接调用。方便分享到微信、Discord 等平台。
 
 ### 安装
 
@@ -61,7 +61,7 @@ md2img <输入文件.md> <输出文件.png>
 
 ## English
 
-Convert Markdown files to a single native long image, perfect for sharing on WeChat, Discord, and other platforms.
+A skill that converts Markdown files to long images, directly callable by AI Agents like OpenClaw and Claude Code. Perfect for sharing on WeChat, Discord, and other platforms.
 
 ### Installation
 
