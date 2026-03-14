@@ -1,0 +1,28 @@
+#!/bin/bash
+# md2img - Markdown 转原生长图工具
+# 使用 Puppeteer 渲染 Markdown 为单张完整长图
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+if [ $# -lt 1 ]; then
+    echo "用法: md2img <输入.md> [输出.png]"
+    echo "示例: md2img 文档.md 输出长图.png"
+    exit 1
+fi
+
+INPUT="$1"
+OUTPUT="${2:-${INPUT%.md}-长图.png}"
+
+# 转换为绝对路径
+if [[ "$INPUT" != /* ]]; then
+    INPUT="$(pwd)/$INPUT"
+fi
+if [[ "$OUTPUT" != /* ]]; then
+    OUTPUT="$(pwd)/$OUTPUT"
+fi
+
+# 运行 Node 脚本
+cd "$SCRIPT_DIR"
+node md2img.mjs "$INPUT" "$OUTPUT"
