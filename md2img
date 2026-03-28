@@ -1,28 +1,18 @@
 #!/bin/bash
 # md2img - Markdown 转原生长图工具
-# 使用 Puppeteer 渲染 Markdown 为单张完整长图
+# 使用 Playwright 内置 Chromium 渲染 Markdown 为长图
 
 set -e
 
-SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+# 解析 symlink，找到脚本真实所在目录（macOS 兼容）
+SOURCE="$0"
+while [ -L "$SOURCE" ]; do
+  DIR="$(cd "$(dirname "$SOURCE")" && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  [[ "$SOURCE" != /* ]] && SOURCE="$DIR/$SOURCE"
+done
+SCRIPT_DIR="$(cd "$(dirname "$SOURCE")" && pwd)"
 
-if [ $# -lt 1 ]; then
-    echo "用法: md2img <输入.md> [输出.png]"
-    echo "示例: md2img 文档.md 输出长图.png"
-    exit 1
-fi
-
-INPUT="$1"
-OUTPUT="${2:-${INPUT%.md}-长图.png}"
-
-# 转换为绝对路径
-if [[ "$INPUT" != /* ]]; then
-    INPUT="$(pwd)/$INPUT"
-fi
-if [[ "$OUTPUT" != /* ]]; then
-    OUTPUT="$(pwd)/$OUTPUT"
-fi
-
-# 运行 Node 脚本
+# 透传所有参数给 Node 脚本（md2img.mjs 内置参数解析器）
 cd "$SCRIPT_DIR"
-node md2img.mjs "$INPUT" "$OUTPUT"
+exec node md2img.mjs "$@"
